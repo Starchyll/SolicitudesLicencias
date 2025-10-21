@@ -1,0 +1,14 @@
+Persistencia\Placa.class
+Persistencia\Placa_.class
+Enum\TipoTramite.class
+Exception\PersistenciaException.class
+Persistencia\Tramite.class
+Conexion\Conexion.class
+Conexion\IConexion.class
+Persistencia\Licencia_.class
+Persistencia\Vehiculo_.class
+Persistencia\Tramite_.class
+Persistencia\Vehiculo.class
+Persistencia\Licencia.class
+Persistencia\Persona_.class
+Persistencia\Persona.class
