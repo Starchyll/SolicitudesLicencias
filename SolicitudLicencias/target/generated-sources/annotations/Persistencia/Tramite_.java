@@ -9,7 +9,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2025-10-21T15:32:17", comments="EclipseLink-2.7.12.v20230209-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2025-10-22T14:09:59", comments="EclipseLink-2.7.12.v20230209-rNA")
 @StaticMetamodel(Tramite.class)
 public class Tramite_ { 
 
