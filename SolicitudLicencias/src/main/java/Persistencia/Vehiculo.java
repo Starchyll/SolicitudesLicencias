@@ -12,25 +12,26 @@ import javax.persistence.*;
  * @author mmax2
  */
 @Entity
+@Table(name="Vehiculo")
 public class Vehiculo {
 
     @Id
     private Long num_serie;
 
-    @Column()
+    @Column(name="marca")
     private String marca;
 
-    @Column()
+    @Column(name="tipo")
     @Enumerated
     private String tipo;
 
-    @Column()
+    @Column(name="modelo")
     private String modelo;
 
-    @Column()
+    @Column(name="color")
     private String color;
 
-    @Column()
+    @Column(name="linea")
     private String linea;
 
     @OneToMany( mappedBy = "vehiculo",cascade = CascadeType.PERSIST)

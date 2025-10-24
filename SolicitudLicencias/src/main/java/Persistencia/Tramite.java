@@ -14,6 +14,7 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  * @author mmax2
  */
 @Entity
+@Table(name="Tramites")
 public class Tramite{
     
     @Id

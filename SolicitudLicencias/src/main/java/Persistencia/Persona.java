@@ -14,6 +14,7 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  * @author mmax2
  */
 @Entity
+@Table(name="Persona")
 public class Persona implements Serializable {
 
     
@@ -22,13 +23,13 @@ public class Persona implements Serializable {
     @Id
     private String RFC;
     
-    @Column()
+    @Column(name="telefono")
     private String telefono;
     
-    @Column()
+    @Column(name="fecha_nacimiento")
     private DateTime fecha_nacimiento;
     
-    @Column()
+    @Column(name="nombre")
     private String nombre;
     
     @OneToOne(mappedBy = "persona",cascade = CascadeType.PERSIST)

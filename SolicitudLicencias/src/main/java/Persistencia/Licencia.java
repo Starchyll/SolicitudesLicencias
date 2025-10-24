@@ -13,6 +13,7 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  * @author mmax2
  */
 @Entity
+@Table(name="Licencia")
 public class Licencia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,19 +21,19 @@ public class Licencia implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_licencia;
     
-    @Column()
+    @Column(name="vigencia")
     private Integer vigencia;
     
-    @Column()
+    @Column(name="costo")
     private long costo;
     
-    @Column()
+    @Column(name="fecha_vencimiento")
     private DateTime fecha_vencimiento;
     
-    @Column()
+    @Column(name="fecha_expedicion")
     private DateTime fecha_expedicion;
     
-    @Column()
+    @Column(name="discapacidad")
     private boolean es_discapacitado;
     
     @OneToOne(cascade = CascadeType.PERSIST)

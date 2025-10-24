@@ -13,23 +13,24 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  */
 
 @Entity
+@Table(name="Placa")
 public class Placa {
     @Id
     private Long num_placa;
     
-    @Column()
+    @Column(name="fecha_recepcion")
     private DateTime fecha_recepcion;
     
-    @Column()
+    @Column(name="costo")
     private Long costo;
     
     @Column()
     private boolean es_nuevo;
     
-    @Column()
+    @Column(name="estado")
     private boolean activa;
     
-    @Column()
+    @Column(name="fecha_emicion")
     private DateTime fecha_emicion;
     
     @ManyToOne(cascade = CascadeType.PERSIST)
