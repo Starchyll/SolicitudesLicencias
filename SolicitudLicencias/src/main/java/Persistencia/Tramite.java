@@ -5,7 +5,6 @@
 package Persistencia;
 
 import Enum.TipoTramite;
-import java.io.Serializable;
 import javax.persistence.*;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
@@ -14,20 +13,21 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  * @author mmax2
  */
 @Entity
-@Table(name="Tramites")
-public class Tramite{
-    
+@Table(name = "Tramites")
+public class Tramite {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_tramite;
-    
+
+    @Column(name = "fecha_realizacion")
     private DateTime fecha_realizacion;
-    
+
     private Long costo;
-    
-    @Enumerated
+
+    @Enumerated(EnumType.STRING)
     private TipoTramite tipo_tramite;
-    
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "RFC")
     private Persona persona;
