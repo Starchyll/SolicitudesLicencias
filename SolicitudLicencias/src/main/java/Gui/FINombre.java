@@ -22,14 +22,14 @@ public class FINombre extends JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setSize(750, 450);
+        setSize(800, 500);
         initComponents();
         setVisible(true);
     }
 
     private void initComponents() {
         JLabel lblNombre = new JLabel("Nombre:");
-        JTextField txtNombre = new JTextField(20);
+        JTextField txtNombre = new JTextField(15);
         JButton btnBuscar = new JButton("Buscar");
 
         String[] columnas = {"RFC", "Nombre", "Tipo Trámite", "Fecha", "Costo"};
