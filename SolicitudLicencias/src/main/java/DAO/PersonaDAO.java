@@ -71,23 +71,28 @@ public class PersonaDAO implements IPersonaDAO{
     }
 
     @Override
-    public Persona consultarPorRFC(String rfc) {
+    public List<Tramite> consultarPorRFC(String rfc) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.find(Persona.class, rfc);
+            String jpql = "SELECT t FROM Tramite t WHERE t.persona.RFC = :rfc";
+
+            TypedQuery<Tramite> query = em.createQuery(jpql, Tramite.class);
+
+            query.setParameter("rfc", rfc);
+            return query.getResultList();
         } finally {
             em.close();
         }
     }
 
     @Override
-    public List<Persona> consultarPorNombreLike(String nombre) {
+    public List<Tramite> consultarPorNombreLike(String nombre) {
         EntityManager em = emf.createEntityManager();
         try {
-            String jpql = "SELECT p FROM Persona p WHERE p.nombre LIKE :nombre";
+            String jpql = "SELECT t FROM Tramite t WHERE t.persona.nombre LIKE :nombre";
             
-            TypedQuery<Persona> query = em.createQuery(jpql, Persona.class);
-
+            TypedQuery<Tramite> query = em.createQuery(jpql, Tramite.class);
+            
             query.setParameter("nombre", nombre);
             
             return query.getResultList();
@@ -97,12 +102,12 @@ public class PersonaDAO implements IPersonaDAO{
     }
 
     @Override
-    public List<Persona> consultarPorFechaLike(String patronFecha) {
+    public List<Tramite> consultarPorFechaLike(String patronFecha) {
         EntityManager em = emf.createEntityManager();
         try {
-            String jpql = "SELECT p FROM Persona p WHERE str(p.fecha_nacimiento) LIKE :patron";
+            String jpql = "SELECT t FROM Tramite t WHERE str(t.fecha_realizacion) LIKE :patron";
             
-            TypedQuery<Persona> query = em.createQuery(jpql, Persona.class);
+            TypedQuery<Tramite> query = em.createQuery(jpql, Tramite.class);
             
             query.setParameter("patron", patronFecha);
             

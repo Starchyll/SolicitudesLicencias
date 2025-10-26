@@ -14,11 +14,11 @@ public interface IPersonaDAO {
 
     void eliminar(String rfc);
 
-    Persona consultarPorRFC(String rfc);
+    List<Tramite> consultarPorRFC(String rfc);
 
-    List<Persona> consultarPorNombreLike(String nombre);
+    List<Tramite> consultarPorNombreLike(String nombre);
 
-    List<Persona> consultarPorFechaLike(String fecha);
+    List<Tramite> consultarPorFechaLike(String fecha);
 
     List<Persona> consultarTodos();
 
