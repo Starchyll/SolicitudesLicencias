@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import Exception.PersistenciaException;
 import Persistencia.Persona;
+import Persistencia.Tramite;
 
 public class PersonaDAO implements IPersonaDAO{
     private EntityManagerFactory emf;
@@ -117,6 +118,20 @@ public class PersonaDAO implements IPersonaDAO{
         try {
             String jpql = "SELECT p FROM Persona p";
             TypedQuery<Persona> query = em.createQuery(jpql, Persona.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Tramite> consultarHistorialTramites(String rfc) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String jpql = "SELECT t FROM Tramite t WHERE t.persona.RFC = :rfc";
+            
+            TypedQuery<Tramite> query = em.createQuery(jpql, Tramite.class);
+            query.setParameter("rfc", rfc);
             return query.getResultList();
         } finally {
             em.close();

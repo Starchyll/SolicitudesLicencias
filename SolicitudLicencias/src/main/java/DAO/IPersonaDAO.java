@@ -1,6 +1,8 @@
 package DAO;
 
 import Persistencia.Persona;
+import Persistencia.Tramite;
+
 import java.util.List;
 
 import Exception.PersistenciaException;
@@ -19,4 +21,6 @@ public interface IPersonaDAO {
     List<Persona> consultarPorFechaLike(String fecha);
 
     List<Persona> consultarTodos();
+
+    List<Tramite> consultarHistorialTramites(String rfc);
 }
