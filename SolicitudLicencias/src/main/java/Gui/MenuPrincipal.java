@@ -221,7 +221,13 @@ if(resp == 0){
 
     private void itemBusquedaRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBusquedaRFCActionPerformed
        panelCentral.removeAll();
-        FIRfc rfcs = new FIRfc();
+        FIRfc rfcs = null;
+        try {
+            rfcs = new FIRfc();
+        } catch (PersistenciaException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         panelCentral.add(rfcs);
         try { rfcs.setSelected(true); } catch (java.beans.PropertyVetoException e) {}
         panelCentral.revalidate();
@@ -230,7 +236,13 @@ if(resp == 0){
 
     private void itemBusquedaNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBusquedaNombreActionPerformed
         panelCentral.removeAll();
-        FINombre nombres = new FINombre();
+        FINombre nombres = null;
+        try {
+            nombres = new FINombre();
+        } catch (PersistenciaException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         panelCentral.add(nombres);
         try { nombres.setSelected(true); } catch (java.beans.PropertyVetoException e) {}
         panelCentral.revalidate();
@@ -239,7 +251,13 @@ if(resp == 0){
 
     private void itemBusquedaNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBusquedaNacimientoActionPerformed
        panelCentral.removeAll();
-        FINacimiento nacimiento = new FINacimiento();
+        FINacimiento nacimiento = null;
+        try {
+            nacimiento = new FINacimiento();
+        } catch (PersistenciaException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         panelCentral.add(nacimiento);
         try { nacimiento.setSelected(true); } catch (java.beans.PropertyVetoException e) {}
         panelCentral.revalidate();

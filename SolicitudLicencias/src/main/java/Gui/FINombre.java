@@ -17,11 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import Conexion.Conexion;
 import DAO.ITramiteDAO;
 import DAO.TramiteDAO;
 import Enum.TipoTramite;
+import Exception.PersistenciaException;
 import Persistencia.Licencia;
 import Persistencia.Placa;
 import Persistencia.Tramite;
@@ -30,7 +32,11 @@ public class FINombre extends JInternalFrame {
     private ITramiteDAO tramiteDAO;
     private SimpleDateFormat formatter;
 
-    public FINombre() {
+    // --- Componentes de la GUI ---
+    private JTextField txtNombre;
+    private DefaultTableModel modeloTabla;
+
+    public FINombre() throws PersistenciaException {
         EntityManagerFactory emf =  Conexion.crearConexion(); 
         this.tramiteDAO = (ITramiteDAO) new TramiteDAO(emf); 
 
@@ -46,11 +52,19 @@ public class FINombre extends JInternalFrame {
 
     private void initComponents() {
         JLabel lblNombre = new JLabel("Nombre:");
-        JTextField txtNombre = new JTextField(15);
+        txtNombre = new JTextField(15);
         JButton btnBuscar = new JButton("Buscar");
 
         String[] columnas = {"RFC", "Nombre", "Tipo Trámite", "Fecha", "Costo"};
         JTable tabla = new JTable(new Object[0][columnas.length], columnas);
+        // Configura el modelo de la tabla para que podamos limpiarlo y llenarlo
+        modeloTabla = new DefaultTableModel(new Object[0][columnas.length], columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hace que la tabla no sea editable
+            }
+        };
+        tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);
 
         JButton btnLimpiar = new JButton("Limpiar");
@@ -85,28 +99,29 @@ public class FINombre extends JInternalFrame {
     
 
     private void buscarHistorial() {
-    String nombre = txtNombre.getText().trim(); 
+        String nombre = txtNombre.getText().trim(); 
 
-    if (nombre.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, ingrese el nombre o parte del nombre.", "Error de Validación", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    try {
-        // Llama al DAO. Se envía el patrón con wildcards (%).
-        List<Tramite> tramites = tramiteDAO.consultarPorNombrePersonaLike("%" + nombre + "%");
-
-        if (tramites == null || tramites.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se encontraron trámites para la persona con nombre similar a: " + nombre, "Sin Resultados", JOptionPane.INFORMATION_MESSAGE);
-
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese el nombre o parte del nombre.", "Error de Validación", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        llenarTabla(tramites); 
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al consultar la base de datos: " + ex.getMessage(), "Error de Consulta", JOptionPane.ERROR_MESSAGE);
-    }
+        try {
+            // Llama al DAO. Se envía el patrón con wildcards (%).
+            List<Tramite> tramites = tramiteDAO.consultarPorNombrePersonaLike("%" + nombre + "%");
+
+            if (tramites == null || tramites.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se encontraron trámites para la persona con nombre similar a: " + nombre, "Sin Resultados", JOptionPane.INFORMATION_MESSAGE);
+
+                return;
+            }
+
+            llenarTabla(tramites); 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al consultar la base de datos: " + ex.getMessage(), "Error de Consulta", JOptionPane.ERROR_MESSAGE);
+        }
+    }    
 
     private void limpiarFormulario() {
         txtNombre.setText("");

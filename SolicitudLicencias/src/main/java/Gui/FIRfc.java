@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import Conexion.Conexion;
 import DAO.IPersonaDAO;
@@ -25,6 +26,7 @@ import DAO.ITramiteDAO;
 import DAO.PersonaDAO;
 import DAO.TramiteDAO;
 import Enum.TipoTramite;
+import Exception.PersistenciaException;
 import Persistencia.Licencia;
 import Persistencia.Placa;
 import Persistencia.Tramite;
@@ -33,7 +35,11 @@ public class FIRfc extends JInternalFrame {
     private ITramiteDAO tramiteDAO;
     private SimpleDateFormat formatter;
 
-    public FIRfc() {
+    // --- Componentes de la GUI ---
+    private JTextField txtRFC;
+    private DefaultTableModel modeloTabla;
+
+    public FIRfc() throws PersistenciaException {
         EntityManagerFactory emf =  Conexion.crearConexion(); 
         this.tramiteDAO = (ITramiteDAO) new TramiteDAO(emf); 
 
@@ -59,11 +65,19 @@ addComponentListener(new java.awt.event.ComponentAdapter() {
 
     private void initComponents() {
         JLabel lblRFC = new JLabel("RFC:");
-        JTextField txtRFC = new JTextField(15);
+        txtRFC = new JTextField(15);
         JButton btnBuscar = new JButton("Buscar");
 
         String[] columnas = {"RFC", "Nombre", "Tipo Trámite", "Fecha", "Costo"};
         JTable tabla = new JTable(new Object[0][columnas.length], columnas);
+        // Configura el modelo de la tabla para que podamos limpiarlo y llenarlo
+        modeloTabla = new DefaultTableModel(new Object[0][columnas.length], columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hace que la tabla no sea editable
+            }
+        };
+        tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);
 
         JButton btnLimpiar = new JButton("Limpiar");
@@ -89,7 +103,9 @@ addComponentListener(new java.awt.event.ComponentAdapter() {
         add(scroll, BorderLayout.CENTER);
         add(bottom, BorderLayout.SOUTH);
 
-
+        btnBuscar.addActionListener(e -> buscarHistorial());
+        btnLimpiar.addActionListener(e -> limpiarFormulario());
+        btnCerrar.addActionListener(e -> this.dispose()); 
     }    
 
     /**

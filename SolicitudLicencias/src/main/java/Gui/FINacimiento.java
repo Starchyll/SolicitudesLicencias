@@ -19,17 +19,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import Conexion.Conexion;
 import DAO.ITramiteDAO;
 import DAO.TramiteDAO;
+import Exception.PersistenciaException;
 import Persistencia.Tramite;
 
 public class FINacimiento extends JInternalFrame {
     private ITramiteDAO tramiteDAO;
     private SimpleDateFormat formatter;
 
-    public FINacimiento() {
+    // --- Componentes de la GUI ---
+    private JTextField txtAnio;
+    private DefaultTableModel modeloTabla;
+
+    public FINacimiento() throws PersistenciaException {
         EntityManagerFactory emf =  Conexion.crearConexion(); 
         this.tramiteDAO = (ITramiteDAO) new TramiteDAO(emf);
 
@@ -60,6 +66,14 @@ addComponentListener(new java.awt.event.ComponentAdapter() {
 
         String[] columnas = {"RFC", "Nombre", "Año Nacimiento", "Tipo Trámite", "Costo"};
         JTable tabla = new JTable(new Object[0][columnas.length], columnas);
+        // Configura el modelo de la tabla para que podamos limpiarlo y llenarlo
+        modeloTabla = new DefaultTableModel(new Object[0][columnas.length], columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hace que la tabla no sea editable
+            }
+        };
+        tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);
 
         JButton btnLimpiar = new JButton("Limpiar");
@@ -129,34 +143,34 @@ addComponentListener(new java.awt.event.ComponentAdapter() {
     }
 
     private void llenarTabla(List<Tramite> tramites) {
-    // Limpia la tabla antes de llenar
-    modeloTabla.setRowCount(0);
-    
-    // Formateador específico para obtener solo el año (YYYY)
-    SimpleDateFormat anioFormatter = new SimpleDateFormat("yyyy");
-
-    for (Tramite t : tramites) {
-        // --- Datos Comunes del Trámite ---
-        String costo = (t.getCosto() != null) ? String.format("$%.2f", t.getCosto()) : "$0.00"; 
-        String tipo = t.getTipo_tramite() != null ? t.getTipo_tramite().toString() : "Desconocido";
-
-        // --- Datos de la Persona ---
-        String rfc = "N/A";
-        String nombre = "N/A";
-        String anioNacimiento = "N/A"; // Columna especial
+        // Limpia la tabla antes de llenar
+        modeloTabla.setRowCount(0);
         
-        if (t.getPersona() != null) {
-            rfc = t.getPersona().getRFC();
-            nombre = t.getPersona().getNombre();
+        // Formateador específico para obtener solo el año (YYYY)
+        SimpleDateFormat anioFormatter = new SimpleDateFormat("yyyy");
+
+        for (Tramite t : tramites) {
+            // --- Datos Comunes del Trámite ---
+            String costo = (t.getCosto() != null) ? String.format("$%.2f", t.getCosto()) : "$0.00"; 
+            String tipo = t.getTipo_tramite() != null ? t.getTipo_tramite().toString() : "Desconocido";
+
+            // --- Datos de la Persona ---
+            String rfc = "N/A";
+            String nombre = "N/A";
+            String anioNacimiento = "N/A"; // Columna especial
             
-            // Obtener y formatear el Año de Nacimiento
-            if (t.getPersona().getFecha_nacimiento() != null) {
-                 anioNacimiento = anioFormatter.format(t.getPersona().getFecha_nacimiento());
+            if (t.getPersona() != null) {
+                rfc = t.getPersona().getRFC();
+                nombre = t.getPersona().getNombre();
+                
+                // Obtener y formatear el Año de Nacimiento
+                if (t.getPersona().getFecha_nacimiento() != null) {
+                    anioNacimiento = anioFormatter.format(t.getPersona().getFecha_nacimiento());
+                }
             }
+
+            modeloTabla.addRow(new Object[]{rfc, nombre, anioNacimiento, tipo, costo});
         }
-
-        modeloTabla.addRow(new Object[]{rfc, nombre, anioNacimiento, tipo, costo});
     }
-
 }
 
