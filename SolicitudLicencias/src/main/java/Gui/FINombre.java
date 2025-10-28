@@ -5,7 +5,7 @@ package Gui;
  */
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.List;
+import java.util.List;
 import java.text.SimpleDateFormat;
 
 import javax.persistence.EntityManagerFactory;
