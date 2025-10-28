@@ -7,18 +7,32 @@ package Gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import Conexion.Conexion;
+import DAO.ITramiteDAO;
+import DAO.TramiteDAO;
+import Persistencia.Tramite;
+
 public class FINacimiento extends JInternalFrame {
+    private ITramiteDAO tramiteDAO;
+    private SimpleDateFormat formatter;
 
     public FINacimiento() {
+        EntityManagerFactory emf =  Conexion.crearConexion(); 
+        this.tramiteDAO = (ITramiteDAO) new TramiteDAO(emf);
+
         setTitle("Buscar por Año de Nacimiento");
         setClosable(true);
         setIconifiable(true);
@@ -70,5 +84,79 @@ addComponentListener(new java.awt.event.ComponentAdapter() {
         add(top, BorderLayout.NORTH);
         add(scroll, BorderLayout.CENTER);
         add(bottom, BorderLayout.SOUTH);
+
+        // --- CONECTAR LÓGICA A BOTONES ---
+        btnBuscar.addActionListener(e -> buscarHistorial());
+        btnLimpiar.addActionListener(e -> limpiarFormulario());
+        btnCerrar.addActionListener(e -> this.dispose());
     }
+
+    private void buscarHistorial() {
+        String anio = txtAnio.getText().trim(); 
+
+        if (anio.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese el año de nacimiento (YYYY).", "Error de Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Validación básica
+        if (!anio.matches("\\d{4}")) { 
+            JOptionPane.showMessageDialog(this, "El año debe ser un número de 4 dígitos.", "Error de Formato", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // Llama al DAO con el método que busca por el año de nacimiento de la persona
+            List<Tramite> tramites = tramiteDAO.consultarPorFechaLike(anio);
+
+            if (tramites == null || tramites.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se encontraron trámites para personas nacidas en el año: " + anio, "Sin Resultados", JOptionPane.INFORMATION_MESSAGE);
+    
+                return;
+            }
+
+            llenarTabla(tramites); 
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al consultar la base de datos: " + ex.getMessage(), "Error de Consulta", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void limpiarFormulario() {
+        txtAnio.setText("");
+        modeloTabla.setRowCount(0);
+    }
+
+    private void llenarTabla(List<Tramite> tramites) {
+    // Limpia la tabla antes de llenar
+    modeloTabla.setRowCount(0);
+    
+    // Formateador específico para obtener solo el año (YYYY)
+    SimpleDateFormat anioFormatter = new SimpleDateFormat("yyyy");
+
+    for (Tramite t : tramites) {
+        // --- Datos Comunes del Trámite ---
+        String costo = (t.getCosto() != null) ? String.format("$%.2f", t.getCosto()) : "$0.00"; 
+        String tipo = t.getTipo_tramite() != null ? t.getTipo_tramite().toString() : "Desconocido";
+
+        // --- Datos de la Persona ---
+        String rfc = "N/A";
+        String nombre = "N/A";
+        String anioNacimiento = "N/A"; // Columna especial
+        
+        if (t.getPersona() != null) {
+            rfc = t.getPersona().getRFC();
+            nombre = t.getPersona().getNombre();
+            
+            // Obtener y formatear el Año de Nacimiento
+            if (t.getPersona().getFecha_nacimiento() != null) {
+                 anioNacimiento = anioFormatter.format(t.getPersona().getFecha_nacimiento());
+            }
+        }
+
+        modeloTabla.addRow(new Object[]{rfc, nombre, anioNacimiento, tipo, costo});
+    }
+
 }
+

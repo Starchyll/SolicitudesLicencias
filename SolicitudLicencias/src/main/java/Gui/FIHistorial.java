@@ -166,11 +166,9 @@ public class FIHistorial extends JInternalFrame {
      * @param tramites La lista de trámites obtenida del DAO.
      */
     private void llenarTabla(List<Tramite> tramites) {
-        // Limpia la tabla antes de llenar
         modeloTabla.setRowCount(0);
 
         for (Tramite t : tramites) {
-            // Asumo que corregiste DateTime a java.util.Date
             String fecha = (t.getFecha_realizacion() != null) ? formatter.format(t.getFecha_realizacion()) : "N/A";
             String costo = (t.getCosto() != null) ? "$" + t.getCosto() : "$0.00";
             String tipo = "Desconocido";

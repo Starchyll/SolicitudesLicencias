@@ -36,4 +36,18 @@ public interface ITramiteDAO {
      */
     List<Tramite> consultarPorCriterio(Date fechaInicio, Date fechaFin, String tipoTramite, String nombrePersona);
 
+    /**
+     * Consulta todos los trámites asociados a un RFC específico.
+     */
+    List<Tramite> consultarPorRFC(String rfc);
+
+    /**
+     * Busca trámites de personas cuyo nombre coincida con el patrón LIKE.
+     */
+    List<Tramite> consultarPorNombrePersonaLike(String nombre);
+
+    /**
+     * Busca trámites cuya fecha de realización (convertida a String)
+     */
+    List<Tramite> consultarPorFechaLike(String patronFecha);
 }

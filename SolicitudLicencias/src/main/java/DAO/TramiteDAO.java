@@ -94,5 +94,50 @@ public class TramiteDAO implements ITramiteDAO{
             em.close();
         }
     }
+
+    @Override
+    public List<Tramite> consultarPorRFC(String rfc) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String jpql = "SELECT t FROM Tramite t WHERE t.persona.RFC = :rfc";
+            TypedQuery<Tramite> query = em.createQuery(jpql, Tramite.class);
+            query.setParameter("rfc", rfc);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Tramite> consultarPorNombrePersonaLike(String nombre) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String jpql = "SELECT t FROM Tramite t WHERE t.persona.nombre LIKE :nombre";
+            
+            TypedQuery<Tramite> query = em.createQuery(jpql, Tramite.class);
+            
+            query.setParameter("nombre", nombre);
+            
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Tramite> consultarPorFechaLike(String patronFecha) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String jpql = "SELECT t FROM Tramite t WHERE str(t.fecha_realizacion) LIKE :patron";
+            
+            TypedQuery<Tramite> query = em.createQuery(jpql, Tramite.class);
+            
+            query.setParameter("patron", patronFecha);
+            
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
     
 }
