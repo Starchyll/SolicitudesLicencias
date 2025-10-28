@@ -5,6 +5,7 @@
 package Persistencia;
 
 import Enum.TipoTramite;
+import java.util.Date;
 import javax.persistence.*;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
@@ -21,7 +22,7 @@ public class Tramite {
     private Long id_tramite;
 
     @Column(name = "fecha_realizacion")
-    private DateTime fecha_realizacion;
+    private Date fecha_realizacion;
 
     private Long costo;
 
@@ -30,7 +31,7 @@ public class Tramite {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "RFC")
-    private Persona persona;
+    private Persona persona;    
     
     @OneToOne(mappedBy = "tramite", cascade = CascadeType.PERSIST)
     private Licencia licencia;
@@ -39,28 +40,24 @@ public class Tramite {
     @JoinColumn (name = "id_placa")
     private Placa placa;
 
-    public Tramite( DateTime fecha_realizacion, Long costo, TipoTramite tipo_tramite, Persona persona, Licencia licencia, Placa placa) {     this.id_tramite = id_tramite;
+    public Tramite() {
+    }
+
+    public Tramite( Date fecha_realizacion, Long costo, Persona persona) {
         this.fecha_realizacion = fecha_realizacion;
         this.costo = costo;
-        this.tipo_tramite = tipo_tramite;
         this.persona = persona;
-        this.licencia = licencia;
-        this.placa = placa;
     }
 
     public Long getId_tramite() {
         return id_tramite;
     }
 
-    public void setId_tramite(Long id_tramite) {
-        this.id_tramite = id_tramite;
-    }
-
-    public DateTime getFecha_realizacion() {
+    public Date getFecha_realizacion() {
         return fecha_realizacion;
     }
 
-    public void setFecha_realizacion(DateTime fecha_realizacion) {
+    public void setFecha_realizacion(Date fecha_realizacion) {
         this.fecha_realizacion = fecha_realizacion;
     }
 
@@ -103,4 +100,6 @@ public class Tramite {
     public void setPlaca(Placa placa) {
         this.placa = placa;
     }
+    
+    
 }

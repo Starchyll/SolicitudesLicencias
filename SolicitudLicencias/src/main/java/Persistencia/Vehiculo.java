@@ -13,6 +13,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="Vehiculo")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Tipo_Vehiculo",discriminatorType = DiscriminatorType.STRING)
 public class Vehiculo {
 
     @Id
@@ -22,7 +24,6 @@ public class Vehiculo {
     private String marca;
 
     @Column(name="tipo")
-    @Enumerated
     private String tipo;
 
     @Column(name="modelo")
@@ -39,9 +40,24 @@ public class Vehiculo {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn (name = "RFC")
-    private Persona dueño;
+    private Persona dueno;
 
-    public Vehiculo(Long num_serie, String marca, String tipo, String modelo, String color, String linea, List<Placa> placa, Persona dueño) {
+    public Vehiculo() {
+    }
+
+    public Vehiculo(Long num_serie, String marca, String tipo, String modelo, String color, String linea, Persona dueno) {
+        this.num_serie = num_serie;
+        this.marca = marca;
+        this.tipo = tipo;
+        this.modelo = modelo;
+        this.color = color;
+        this.linea = linea;
+        this.dueno = dueno;
+    }
+    
+    
+
+    public Vehiculo(Long num_serie, String marca, String tipo, String modelo, String color, String linea, List<Placa> placa, Persona dueno) {
         this.num_serie = num_serie;
         this.marca = marca;
         this.tipo = tipo;
@@ -49,7 +65,7 @@ public class Vehiculo {
         this.color = color;
         this.linea = linea;
         this.placa = placa;
-        this.dueño = dueño;
+        this.dueno = dueno;
     }
 
     public Long getNum_serie() {
@@ -108,12 +124,12 @@ public class Vehiculo {
         this.placa = placa;
     }
 
-    public Persona getDueño() {
-        return dueño;
+    public Persona getDueno() {
+        return dueno;
     }
 
-    public void setDueño(Persona dueño) {
-        this.dueño = dueño;
+    public void setDueon(Persona dueon) {
+        this.dueno = dueno;
     }
 
     

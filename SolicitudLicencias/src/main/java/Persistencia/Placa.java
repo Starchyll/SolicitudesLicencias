@@ -4,6 +4,7 @@
  */
 package Persistencia;
 
+import java.util.Date;
 import javax.persistence.*;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
@@ -19,7 +20,7 @@ public class Placa {
     private Long num_placa;
     
     @Column(name="fecha_recepcion")
-    private DateTime fecha_recepcion;
+    private Date fecha_recepcion;
     
     @Column(name="costo")
     private Long costo;
@@ -31,16 +32,19 @@ public class Placa {
     private boolean activa;
     
     @Column(name="fecha_emicion")
-    private DateTime fecha_emicion;
+    private Date fecha_emicion;
     
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "num_serie")
     private Vehiculo vehiculo;
     
-    @OneToOne(mappedBy = "palca", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "placa", cascade = CascadeType.PERSIST)
     private Tramite tramite;
 
-    public Placa(Long num_placa, DateTime fecha_recepcion, Long costo, boolean es_nuevo, boolean activa, DateTime fecha_emicion, Vehiculo vehiculo, Tramite tramite) {
+    public Placa() {
+    }
+
+    public Placa(Long num_placa, Date fecha_recepcion, Long costo, boolean es_nuevo, boolean activa, Date fecha_emicion, Vehiculo vehiculo, Tramite tramite) {
         this.num_placa = num_placa;
         this.fecha_recepcion = fecha_recepcion;
         this.costo = costo;
@@ -59,11 +63,11 @@ public class Placa {
         this.num_placa = num_placa;
     }
 
-    public DateTime getFecha_recepcion() {
+    public Date getFecha_recepcion() {
         return fecha_recepcion;
     }
 
-    public void setFecha_recepcion(DateTime fecha_recepcion) {
+    public void setFecha_recepcion(Date fecha_recepcion) {
         this.fecha_recepcion = fecha_recepcion;
     }
 
@@ -91,11 +95,11 @@ public class Placa {
         this.activa = activa;
     }
 
-    public DateTime getFecha_emicion() {
+    public Date getFecha_emicion() {
         return fecha_emicion;
     }
 
-    public void setFecha_emicion(DateTime fecha_emicion) {
+    public void setFecha_emicion(Date fecha_emicion) {
         this.fecha_emicion = fecha_emicion;
     }
 

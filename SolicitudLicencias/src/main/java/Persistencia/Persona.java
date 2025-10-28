@@ -5,6 +5,7 @@
 package Persistencia;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
@@ -27,7 +28,7 @@ public class Persona implements Serializable {
     private String telefono;
     
     @Column(name="fecha_nacimiento")
-    private DateTime fecha_nacimiento;
+    private Date fecha_nacimiento;
     
     @Column(name="nombre")
     private String nombre;
@@ -35,13 +36,25 @@ public class Persona implements Serializable {
     @OneToOne(mappedBy = "persona",cascade = CascadeType.PERSIST)
     private Licencia licencia;
     
-    @OneToMany(mappedBy = "dueño", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "dueno", cascade = CascadeType.PERSIST)
     private List<Vehiculo> lista_vehiculos;
     
     @OneToMany(mappedBy = "persona", cascade = CascadeType.PERSIST)
     private List<Tramite> lista_tramites;
 
-    public Persona(String RFC, String telefono, DateTime fecha_nacimiento, String nombre, Licencia licencia, List<Vehiculo> lista_vehiculos, List<Tramite> lista_tramites) {
+    public Persona() {
+    }
+
+    public Persona(String RFC, String telefono, Date fecha_nacimiento, String nombre) {
+        this.RFC = RFC;
+        this.telefono = telefono;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.nombre = nombre;
+    }
+    
+    
+
+    public Persona(String RFC, String telefono, Date fecha_nacimiento, String nombre, Licencia licencia, List<Vehiculo> lista_vehiculos, List<Tramite> lista_tramites) {
         this.RFC = RFC;
         this.telefono = telefono;
         this.fecha_nacimiento = fecha_nacimiento;
@@ -67,11 +80,11 @@ public class Persona implements Serializable {
         this.telefono = telefono;
     }
 
-    public DateTime getFecha_nacimiento() {
+    public Date getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(DateTime fecha_nacimiento) {
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 

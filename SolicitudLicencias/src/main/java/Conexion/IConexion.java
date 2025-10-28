@@ -6,11 +6,12 @@ package Conexion;
 
 import Exception.PersistenciaException;
 import java.sql.Connection;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
  * @author mmax2
  */
 public interface IConexion {
-    Connection crearConexion() throws PersistenciaException;
+    EntityManagerFactory crearConexion() throws PersistenciaException;
 }

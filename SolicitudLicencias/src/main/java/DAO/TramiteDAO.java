@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import Enum.TipoTramite;
+import java.util.Date;
 
 /**
  *
@@ -64,7 +65,7 @@ public class TramiteDAO implements ITramiteDAO{
     }
 
     @Override
-    public List<Tramite> consultarPorCriterio(DateTime fechaInicio, DateTime fechaFin, String tipoTramite, String nombrePersona) {
+    public List<Tramite> consultarPorCriterio(Date fechaInicio, Date fechaFin, String tipoTramite, String nombrePersona) {
         EntityManager em = emf.createEntityManager();
         try {
             StringBuilder sql = new StringBuilder("SELECT t FROM Tramite t JOIN t.persona p WHERE t.fechaRealizacion BETWEEN :fechaInicio AND :fechaFin");

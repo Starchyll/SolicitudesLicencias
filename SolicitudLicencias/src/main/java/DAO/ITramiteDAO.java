@@ -5,6 +5,7 @@
 package DAO;
 
 import Persistencia.Tramite;
+import java.util.Date;
 import java.util.List;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
@@ -33,6 +34,6 @@ public interface ITramiteDAO {
      * Consulta trámites por criterio
      * Permite filtrar por periodo de tiempo, tipo de trámite y por nombre de la persona
      */
-    List<Tramite> consultarPorCriterio(DateTime fechaInicio, DateTime fechaFin, String tipoTramite, String nombrePersona);
+    List<Tramite> consultarPorCriterio(Date fechaInicio, Date fechaFin, String tipoTramite, String nombrePersona);
 
 }

@@ -5,6 +5,7 @@
 package Persistencia;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.*;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
@@ -28,10 +29,10 @@ public class Licencia implements Serializable {
     private long costo;
     
     @Column(name="fecha_vencimiento")
-    private DateTime fecha_vencimiento;
+    private Date fecha_vencimiento;
     
     @Column(name="fecha_expedicion")
-    private DateTime fecha_expedicion;
+    private Date fecha_expedicion;
     
     @Column(name="discapacidad")
     private boolean es_discapacitado;
@@ -44,7 +45,10 @@ public class Licencia implements Serializable {
     @JoinColumn(name = "id_tramite")
     private Tramite tramite;
 
-    public Licencia(Integer vigencia, long costo, DateTime fecha_vencimiento, DateTime fecha_expedicion, boolean es_discapacitado, Persona persona, Tramite tramite) {
+    public Licencia() {
+    }
+
+    public Licencia(Integer vigencia, long costo, Date fecha_vencimiento, Date fecha_expedicion, boolean es_discapacitado, Persona persona, Tramite tramite) {
         this.vigencia = vigencia;
         this.costo = costo;
         this.fecha_vencimiento = fecha_vencimiento;
@@ -56,10 +60,6 @@ public class Licencia implements Serializable {
 
     public Long getId_licencia() {
         return id_licencia;
-    }
-
-    public void setId_licencia(Long id_licencia) {
-        this.id_licencia = id_licencia;
     }
 
     public Integer getVigencia() {
@@ -78,19 +78,19 @@ public class Licencia implements Serializable {
         this.costo = costo;
     }
 
-    public DateTime getFecha_vencimiento() {
+    public Date getFecha_vencimiento() {
         return fecha_vencimiento;
     }
 
-    public void setFecha_vencimiento(DateTime fecha_vencimiento) {
+    public void setFecha_vencimiento(Date fecha_vencimiento) {
         this.fecha_vencimiento = fecha_vencimiento;
     }
 
-    public DateTime getFecha_expedicion() {
+    public Date getFecha_expedicion() {
         return fecha_expedicion;
     }
 
-    public void setFecha_expedicion(DateTime fecha_expedicion) {
+    public void setFecha_expedicion(Date fecha_expedicion) {
         this.fecha_expedicion = fecha_expedicion;
     }
 

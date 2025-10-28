@@ -4,6 +4,9 @@
  */
 package Gui;
 
+import Exception.PersistenciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -155,7 +158,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void itemLicenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLicenciasActionPerformed
         panelCentral.removeAll();
-        FILicencias lic = new FILicencias();
+        FILicencias lic = null;
+        try {
+            lic = new FILicencias();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         panelCentral.add(lic);
         try { lic.setSelected(true); } catch (java.beans.PropertyVetoException e) {}
         panelCentral.revalidate();
@@ -164,7 +172,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void itemHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemHistorialActionPerformed
        panelCentral.removeAll();
-        FIHistorial historial = new FIHistorial();
+        FIHistorial historial = null;
+        try {
+            historial = new FIHistorial();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         panelCentral.add(historial);
         try { historial.setSelected(true); } catch (java.beans.PropertyVetoException e) {}
         panelCentral.revalidate();
@@ -194,7 +207,12 @@ if(resp == 0){
 
     private void itemPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPlacasActionPerformed
        panelCentral.removeAll();
-        FIPlacas placas = new FIPlacas();
+        FIPlacas placas = null;
+        try {
+            placas = new FIPlacas();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         panelCentral.add(placas);
         try { placas.setSelected(true); } catch (java.beans.PropertyVetoException e) {}
         panelCentral.revalidate();
@@ -230,7 +248,12 @@ if(resp == 0){
 
     private void itemReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReportesActionPerformed
         panelCentral.removeAll();
-        FIReportes reportes = new FIReportes();
+        FIReportes reportes = null;
+        try {
+            reportes = new FIReportes();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         panelCentral.add(reportes);
         try { reportes.setSelected(true); } catch (java.beans.PropertyVetoException e) {}
         panelCentral.revalidate();
