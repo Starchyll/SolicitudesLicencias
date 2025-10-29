@@ -1,4 +1,5 @@
 package Gui;
+
 /**
  *
  * @author icoro
@@ -55,7 +56,7 @@ public class FILicencias extends JInternalFrame {
     private IPersonaDAO personaDAO;
     private ILicenciaDAO licenciaDAO;
     private ITramiteDAO tramiteDAO;
-    
+
     private Persona personaEncontrada;
     private long costoCalculado = 0L;
 
@@ -66,16 +67,21 @@ public class FILicencias extends JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setSize(800, 500);
-        
+
         initComponents();
-        
+
         EntityManagerFactory emf = Conexion.Conexion.crearConexion();
         this.personaDAO = new PersonaDAO(emf);
         this.licenciaDAO = new LicenciaDAO(emf);
         this.tramiteDAO = new TramiteDAO(emf);
-        
+
         conectarBotones();
-        
+
+        JOptionPane.showMessageDialog(this,
+                "Aviso: Si el RFC de la persona no se encuentra, se registrará automáticamente al momento de 'Guardar'.",
+                "Registro Automático",
+                JOptionPane.INFORMATION_MESSAGE);
+
         addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentShown(java.awt.event.ComponentEvent e) {
@@ -112,12 +118,12 @@ public class FILicencias extends JInternalFrame {
             personaEncontrada = personaOpt.get();
             txtNombre.setText(personaEncontrada.getNombre());
             txtTelefono.setText(personaEncontrada.getTelefono());
-            
+
             Date fechaNac = personaEncontrada.getFecha_nacimiento();
             if (fechaNac != null) {
                 dpNacimiento.setDate(fechaNac.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            
+
             txtNombre.setEditable(false);
             txtTelefono.setEditable(false);
             dpNacimiento.setEnabled(false);
@@ -143,7 +149,7 @@ public class FILicencias extends JInternalFrame {
         } else {
             costoCalculado = 600L * vigencia;
         }
-        
+
         txtCosto.setText(String.valueOf(costoCalculado));
     }
 
@@ -181,7 +187,7 @@ public class FILicencias extends JInternalFrame {
 
             Tramite tramite = new Tramite(fechaVenc, costoCalculado, personaEncontrada);
             Licencia licencia = new Licencia(vigencia, costoCalculado, fechaVenc, fechaExp, esDiscapacitado, personaEncontrada, tramite);
-            
+
             tramite.setLicencia(licencia);
 
             tramiteDAO.agregar(tramite);
@@ -204,15 +210,15 @@ public class FILicencias extends JInternalFrame {
         dpExpedicion.setDateToToday();
         cbVigencia.setSelectedIndex(0);
         cbTipo.setSelectedIndex(0);
-        
+
         txtNombre.setEditable(true);
         txtTelefono.setEditable(true);
         dpNacimiento.setEnabled(true);
-        
+
         personaEncontrada = null;
         costoCalculado = 0L;
     }
-    
+
     private void initComponents() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -252,39 +258,59 @@ public class FILicencias extends JInternalFrame {
         btnCerrar = new JButton("Cerrar");
 
         JButton[] botones = {btnBuscar, btnCalcular, btnGuardar, btnLimpiar, btnCerrar};
-        for (JButton b : botones) Estilos.aplicarEstiloBoton(b);
+        for (JButton b : botones) {
+            Estilos.aplicarEstiloBoton(b);
+        }
         Estilos.aplicarPanelFondo(panel);
         Estilos.aplicarTituloVentana(this);
 
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         panel.add(lblRFC, gbc);
-        gbc.gridx = 1; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
         panel.add(txtRFC, gbc);
-        gbc.gridx = 2; gbc.weightx = 0;
+        gbc.gridx = 2;
+        gbc.weightx = 0;
         panel.add(btnBuscar, gbc);
 
         gbc.gridy++;
-        gbc.gridx = 0; panel.add(lblNombre, gbc);
-        gbc.gridx = 1; gbc.gridwidth = 2; panel.add(txtNombre, gbc);
+        gbc.gridx = 0;
+        panel.add(lblNombre, gbc);
+        gbc.gridx = 1;
+        gbc.gridwidth = 2;
+        panel.add(txtNombre, gbc);
         gbc.gridwidth = 1;
 
         gbc.gridy++;
-        gbc.gridx = 0; panel.add(lblNacimiento, gbc);
-        gbc.gridx = 1; panel.add(dpNacimiento, gbc);
-        gbc.gridx = 2; panel.add(lblTelefono, gbc);
-        gbc.gridx = 3; panel.add(txtTelefono, gbc);
+        gbc.gridx = 0;
+        panel.add(lblNacimiento, gbc);
+        gbc.gridx = 1;
+        panel.add(dpNacimiento, gbc);
+        gbc.gridx = 2;
+        panel.add(lblTelefono, gbc);
+        gbc.gridx = 3;
+        panel.add(txtTelefono, gbc);
 
         gbc.gridy++;
-        gbc.gridx = 0; panel.add(lblVigencia, gbc);
-        gbc.gridx = 1; panel.add(cbVigencia, gbc);
-        gbc.gridx = 2; panel.add(lblTipo, gbc);
-        gbc.gridx = 3; panel.add(cbTipo, gbc);
+        gbc.gridx = 0;
+        panel.add(lblVigencia, gbc);
+        gbc.gridx = 1;
+        panel.add(cbVigencia, gbc);
+        gbc.gridx = 2;
+        panel.add(lblTipo, gbc);
+        gbc.gridx = 3;
+        panel.add(cbTipo, gbc);
 
         gbc.gridy++;
-        gbc.gridx = 0; panel.add(lblCosto, gbc);
-        gbc.gridx = 1; panel.add(txtCosto, gbc);
-        gbc.gridx = 2; panel.add(lblFecha, gbc);
-        gbc.gridx = 3; panel.add(dpExpedicion, gbc);
+        gbc.gridx = 0;
+        panel.add(lblCosto, gbc);
+        gbc.gridx = 1;
+        panel.add(txtCosto, gbc);
+        gbc.gridx = 2;
+        panel.add(lblFecha, gbc);
+        gbc.gridx = 3;
+        panel.add(dpExpedicion, gbc);
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         Estilos.aplicarPanelFondo(panelBotones);

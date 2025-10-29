@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import Exception.PersistenciaException;
 import Persistencia.Tramite;
 import java.util.Date;
 import java.util.List;
@@ -13,12 +14,12 @@ import org.eclipse.persistence.jpa.jpql.parser.DateTime;
  *
  * @author angel
  */
-public interface ITramiteDAO {
+public interface ITramiteDAO  {
 
    /*
     * Agrega un nuevo registro de trámite (Licencia o placa)
     */
-    void agregar(Tramite tramite);
+    void agregar(Tramite tramite) throws PersistenciaException ;
 
    /*
     * Consulta tramite por ID
@@ -49,5 +50,5 @@ public interface ITramiteDAO {
     /**
      * Busca trámites cuya fecha de realización (convertida a String)
      */
-    List<Tramite> consultarPorFechaLike(String patronFecha);
+    List<Tramite> consultarPorFechaLike(int anio) throws PersistenciaException;
 }

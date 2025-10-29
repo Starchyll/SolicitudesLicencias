@@ -1,5 +1,6 @@
 DAO\VehiculoDAO.class
 Persistencia\Placa_.class
+DTO\PlacaDTO.class
 Gui\MenuPrincipal$8.class
 DAO\IVehiculoDAO.class
 Gui\FILicencias$1.class
@@ -12,11 +13,13 @@ Gui\FINombre.class
 Persistencia\TramiteLicencia_.class
 DAO\TramiteDAO.class
 Persistencia\Placa.class
+DTO\VehiculoDTO.class
 Gui\FIRfc.class
 Gui\MenuPrincipal$2.class
 Gui\FIHistorial$1.class
 Persistencia\TramitePlaca_.class
 Gui\FIPlacas$1.class
+Gui\FIRfc$2.class
 Gui\MenuPrincipal$6.class
 Persistencia\Vehiculo.class
 Persistencia\Licencia.class
@@ -30,6 +33,7 @@ Persistencia\Tramite.class
 Conexion\Conexion.class
 Conexion\IConexion.class
 Gui\MenuPrincipal$3.class
+Gui\FINacimiento$2.class
 Gui\FIHistorial$2.class
 Persistencia\Tramite_.class
 DAO\IPersonaDAO.class
@@ -37,9 +41,13 @@ DAO\PlacaDAO.class
 DAO\ILicenciaDAO.class
 DAO\ITramiteDAO.class
 DAO\PersonaDAO.class
+Gui\FINombre$1.class
+DTO\LicenciaDTO.class
 Persistencia\TramiteLicencia.class
 Gui\FINacimiento$1.class
+DTO\PersonaDTO.class
 Gui\FIReportes.class
+DTO\TramiteDTO.class
 Exception\PersistenciaException.class
 Gui\FIPlacas.class
 Gui\MenuPrincipal$7.class

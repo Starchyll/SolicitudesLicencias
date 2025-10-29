@@ -39,6 +39,8 @@ public class FINombre extends JInternalFrame {
     public FINombre() throws PersistenciaException {
         EntityManagerFactory emf =  Conexion.crearConexion(); 
         this.tramiteDAO = (ITramiteDAO) new TramiteDAO(emf); 
+        this.formatter = new SimpleDateFormat( "dd/MM/yyyy");
+        
 
         setTitle("Buscar Trámites por Nombre");
         setClosable(true);
@@ -51,6 +53,7 @@ public class FINombre extends JInternalFrame {
     }
 
     private void initComponents() {
+        
         JLabel lblNombre = new JLabel("Nombre:");
         txtNombre = new JTextField(15);
         JButton btnBuscar = new JButton("Buscar");
@@ -136,8 +139,8 @@ public class FINombre extends JInternalFrame {
 
         for (Tramite t : tramites) {
             String tipo = t.getTipo_tramite() != null ? t.getTipo_tramite().toString() : "Desconocido";
-            String fecha = (t.getFecha_realizacion() != null) ? formatter.format(t.getFecha_realizacion()) : "N/A";
-            String costo = (t.getCosto() != null) ? String.format("$%.2f", t.getCosto()) : "$0.00";
+            String fecha = (t.getFecha_realizacion() != null) ? this.formatter.format(t.getFecha_realizacion()) : "N/A";
+            String costo = (t.getCosto() != null) ? String.format("$%.2f", t.getCosto().doubleValue()) : "$0.00";
             String detalle = "N/A"; 
 
             if (t.getTipo_tramite() == TipoTramite.Licencia) {
