@@ -8,6 +8,7 @@ import Persistencia.Vehiculo;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -56,14 +57,24 @@ public class VehiculoDAO implements IVehiculoDAO {
         }
     }
 
-    @Override
-    public void eliminar(String numSerie) {
+   public void eliminar(String numSerie) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Vehiculo vehiculo = em.find(Vehiculo.class, numSerie);
+            
+            
+            Vehiculo vehiculo = null;
+            try {
+                String sql = "SELECT v FROM Vehiculo v WHERE v.num_Serie = :num_Serie";
+                TypedQuery<Vehiculo> query = em.createQuery(sql, Vehiculo.class);
+                query.setParameter("num_Serie", numSerie);
+                vehiculo = query.getSingleResult(); // Obtenemos el vehículo
+            } catch (NoResultException e) {
+            }
+
             if (vehiculo != null) {
-                em.remove(vehiculo);
+                
+                em.remove(vehiculo); 
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -75,12 +86,21 @@ public class VehiculoDAO implements IVehiculoDAO {
             em.close();
         }
     }
-
+   
     @Override
     public Vehiculo consultar(String numSerie) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.find(Vehiculo.class, numSerie);
+            
+            String sql = "SELECT v FROM Vehiculo v WHERE v.num_Serie = :num_Serie";
+            TypedQuery<Vehiculo> query = em.createQuery(sql, Vehiculo.class);
+            query.setParameter("num_Serie", numSerie);
+            
+           
+            return query.getSingleResult();
+
+        } catch (NoResultException e) {
+            return null;
         } finally {
             em.close();
         }

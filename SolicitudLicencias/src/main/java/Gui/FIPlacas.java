@@ -172,7 +172,7 @@ public class FIPlacas extends JInternalFrame {
 
             Long numSerie;
             try {
-                numSerie = Long.parseLong(txtSerie.getText());
+                numSerie = Long.valueOf(txtSerie.getText());
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "El número de serie debe ser numérico.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -204,7 +204,7 @@ public class FIPlacas extends JInternalFrame {
             Date hoy = new Date();
             Long numPlacaLong;
             try {
-                numPlacaLong = Long.parseLong(placasGeneradas);
+                numPlacaLong = Long.valueOf(placasGeneradas);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Error al generar el número de placa.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
